@@ -5,13 +5,19 @@
   <div class="col-md-8">
   <h2><%= @book.title %></h2>
   <h3><%= @book.author %></h3>
+  <h2 class="avg-rating">Average Rating</h2>
+  <div class="average-review-rating" data-score=<%= @average_review %>></div>
+  <span class="number-of-reviews">Based on <%= @book.reviews.count %> reviews</span>
   <h4>Category: <%= @book.category.name %></h4>
   <h3><%= @book.description %></h3>
   </div> 
 </div>
 <div class="row">
   <div class="col-md-4">
-    <--Where the reviews and ratisngs will go -->
+    <%= render @book.reviews %>
+    <div>
+      <%= link_to "Add Review" , new_book_review_path(@book) %>
+    </div>
   </div>
 </div>
 
@@ -24,3 +30,23 @@
 
   <% end %>
 <% end %>
+
+<script>
+  $('.review-rating').raty({
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
+
+<script>
+  $('.average-review-rating').raty({
+    readOnly: true,
+    path: '/assets/',
+    score: function() {
+      return $(this).attr('data-score')
+    }
+  });
+</script>
